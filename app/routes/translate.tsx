@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import {
   PastTranslation,
   PastTranslations,
@@ -11,6 +12,7 @@ const STORAGE_KEY = "past_translations";
 export default function Translate() {
   const [translation, setTranslation] = useState<any>(null);
   const [past, setPast] = useState<PastTranslation[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -40,6 +42,22 @@ export default function Translate() {
   return (
     <div className="flex flex-col md:flex-row h-full min-h-screen bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-zinc-900 dark:to-zinc-800">
       <aside className="w-full md:w-80 p-4 border-r border-zinc-200 bg-white/70 dark:bg-zinc-900/70 flex flex-col">
+        <button
+          className="mb-4 text-blue-600 hover:underline flex items-center gap-2 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          <svg
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
         <PastTranslations items={past} onClear={handleClear} />
       </aside>
       <main className="flex-1 flex flex-col items-center justify-start p-4 overflow-y-auto">
