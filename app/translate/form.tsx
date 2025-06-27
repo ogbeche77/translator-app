@@ -16,8 +16,14 @@ export function TranslateForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+
     setError(null);
+    if (!text.trim()) {
+      setError("Please enter text to translate.");
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await fetch(
         `https://api.funtranslations.com/translate/${engine}.json`,
@@ -57,6 +63,7 @@ export function TranslateForm({
           }
           className="w-full"
         />
+        {error && <div className="text-red-500 text-xs mt-2">{error}</div>}{" "}
       </div>
       <div className="flex flex-col gap-2 w-full">
         <label className="font-medium text-sm text-zinc-700">
@@ -77,7 +84,6 @@ export function TranslateForm({
       <Button type="submit" className="w-full mt-2 cursor-pointer">
         {loading ? "Translating..." : "Translate"}
       </Button>
-      {error && <div className="text-red-500 text-xs mt-2">{error}</div>}
     </form>
   );
 }
