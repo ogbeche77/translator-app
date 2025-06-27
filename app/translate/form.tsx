@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Button from "../../view/components/Button";
-import Input from "../../view/components/Input";
+import Button from "../../src/Ui/Button";
+import Input from "../../src/Ui/Input";
 
-import { ENGINES, Engine } from "../../domain/types/Engine";
+import { ENGINES, Engine } from "../../src/Domain/Types/Engine";
 
 export function TranslateForm({
   onResult,
