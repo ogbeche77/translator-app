@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { CacheService } from "../../../io/service/CacheService";
 import { Engine } from "../../domain/types/Engine";
-import {
-  PastTranslation,
-  PastTranslations,
-} from "../PastTranslations/PastTranslations";
+import { PastTranslation } from "../../domain/types/Translation";
+import { PastTranslations } from "../PastTranslations/PastTranslations";
+import { RealTranslationService } from "./RealTranslationService";
 import { TranslateForm } from "./TranslationForm";
 
 const STORAGE_KEY = "past_translations";
@@ -62,7 +62,10 @@ export function Translate() {
       </aside>
       <main className="flex-1 flex flex-col items-center justify-start p-4 overflow-y-auto">
         <div className="w-full max-w-2xl">
-          <TranslateForm onResult={handleResult} />
+          <TranslateForm
+            onResult={handleResult}
+            translationService={new CacheService(new RealTranslationService())}
+          />
           <div className="mt-6">
             {translation && translation.contents ? (
               <div className="bg-green-50 border border-green-200 rounded p-4 text-green-800 text-lg shadow">

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Button from "../../Ui/Button";
 import Input from "../../Ui/Input";
 
-import { ENGINES, Engine } from "../../Domain/Types/Engine";
+import { TranslationService } from "../../../io/service/CacheService";
+import { ENGINES, Engine } from "../../domain/types/Engine";
 
 export function TranslateForm({
   onResult,
+  translationService,
 }: {
   onResult: (result: any, text: string, engine: Engine) => void;
+  translationService: TranslationService;
 }) {
   const [text, setText] = useState("");
   const [engine, setEngine] = useState<Engine>("pirate");
@@ -25,17 +28,9 @@ export function TranslateForm({
 
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://api.funtranslations.com/translate/${engine}.json`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({ text }),
-        }
-      );
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error?.message || response.statusText);
+      const data = await translationService.getTranslation(text, engine);
+      if (!data || data.error) {
+        throw new Error(data?.error?.message || "Translation failed");
       }
       onResult(data, text, engine);
     } catch (err: any) {

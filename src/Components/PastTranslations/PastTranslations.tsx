@@ -1,9 +1,5 @@
-export type PastTranslation = {
-  text: string;
-  translation: string;
-  engine: string;
-  date: string;
-};
+import React from "react";
+import type { PastTranslation } from "../../domain/types/Translation";
 
 export function PastTranslations({
   items,
